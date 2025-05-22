@@ -1,3 +1,5 @@
+package com.murilospinello2025.androidcompose.ui.home.chats
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

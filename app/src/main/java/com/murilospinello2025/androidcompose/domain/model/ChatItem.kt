@@ -36,5 +36,5 @@ val sampleChats = listOf(
         time = "Ontem",
         unreadCount = 1,
         profileImageUrl = "https://i.pinimg.com/736x/fd/fc/ef/fdfcefc24e58a4e3ed4dd6099d530353.jpg"
-    ),
+    )
 )

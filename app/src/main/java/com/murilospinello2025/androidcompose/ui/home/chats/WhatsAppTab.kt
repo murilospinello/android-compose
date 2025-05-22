@@ -1,4 +1,4 @@
-package com.murilospinello2025.androidcompose.ui.home
+package com.murilospinello2025.androidcompose.ui.home.chats
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call

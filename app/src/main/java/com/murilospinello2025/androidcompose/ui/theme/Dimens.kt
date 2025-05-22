@@ -7,6 +7,8 @@ object Dimens {
     val spacingXS = 4.dp
     val spacingS = 8.dp
     val spacingM = 12.dp
+    val spacingL =  16.dp
+
 
     val chatImageSize = 54.dp
     val chatDividerStartPadding = 80.dp
