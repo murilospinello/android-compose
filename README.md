@@ -47,6 +47,46 @@ Demonstrar:
 
 > ... Em andamento
 
+## 🧾 Classes Criadas e Atualizadas
+
+### 🔹 `MainActivity.kt`
+- Tela principal que organiza a navegação entre tabs utilizando `HorizontalPager` e `Scaffold`.
+- Navegação entre **Conversas**, **Status** e **Chamadas**.
+
+### 🔹 `WhatsAppTab.kt`
+- `sealed class` que representa as abas da aplicação.
+- Cada aba contém título e ícone, utilizados para sincronizar navegação e renderização.
+
+### 🔹 `ChatItem.kt`
+- Modelo de dados para exibir informações das conversas.
+- Contém nome do remetente, última mensagem, horário, imagem e contagem de mensagens não lidas.
+
+### 🔹 `ChatsScreen.kt`
+- Tela da aba **Conversas** com lista em `LazyColumn`.
+- Usa `ChatRow` e `Divider` para exibição limpa e fiel ao WhatsApp.
+
+### 🔹 `StatusItem.kt`
+- `sealed class` com dois tipos: `MyStatus` e `ContactStatus`.
+- Representa o status do usuário e os status dos contatos com nome, horário e imagem.
+
+### 🔹 `StatusScreen.kt`
+- Implementação da tela **Status**, com separação visual entre "Meu Status" e "Atualizações Recentes".
+- Usa imagem circular e layout similar ao WhatsApp.
+
+### 🔹 `CallItem.kt`
+- `sealed class` com dois tipos: `Favorite` e `Recent`.
+- Modelo para representar chamadas, incluindo direção (`INCOMING`, `OUTGOING`, `MISSED`), data e tipo (áudio/vídeo).
+
+### 🔹 `CallsScreen.kt`
+- Tela da aba **Chamadas** organizada por seções (Favoritos e Recentes).
+- Ícones indicam o tipo de chamada e sua direção, com layout inspirado no app real.
+
+### 🔹 `Dimens.kt`
+- Objeto centralizado com os valores de `dp` reutilizados no projeto.
+- Facilita a padronização visual entre telas.
+
+---
+
 ## 📌 Observações
 
 * Arquitetura baseada em MVVM
