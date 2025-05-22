@@ -1,6 +1,4 @@
-Aqui está o conteúdo completo pronto para ser colado no seu `README.md`, já no formato markdown:
 
-````markdown
 # 📱 Projeto Android com Jetpack Compose – Arquitetura MVVM
 
 Este é um projeto Android nativo desenvolvido com **Jetpack Compose**, utilizando a arquitetura **MVVM (Model-View-ViewModel)**, com o objetivo de demonstrar boas práticas de desenvolvimento mobile moderno. O projeto serve como um case técnico para meu portfólio.
