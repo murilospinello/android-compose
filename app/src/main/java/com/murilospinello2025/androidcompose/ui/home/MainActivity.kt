@@ -1,5 +1,6 @@
 package com.murilospinello2025.androidcompose.ui.home
 
+import ChatsScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -48,26 +49,24 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun WhatsAppWithSwipe() {
-    val tabs = listOf("Conversas", "Status", "Chamadas")
+    val tabs = WhatsAppTab.items
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
-            Column {
-                TopAppBar(title = { Text("WhatsApp Murilo") })
-            }
+            TopAppBar(title = { Text("WhatsApp Murilo") })
         },
         bottomBar = {
             NavigationBar {
-                tabs.forEach { screen ->
+                tabs.forEachIndexed { index, tab ->
                     NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = screen) },
-                        label = { Text(screen) },
-                        selected = screen == tabs[pagerState.currentPage],
+                        icon = { Icon(tab.icon, contentDescription = tab.title) },
+                        label = { Text(tab.title) },
+                        selected = index == pagerState.currentPage,
                         onClick = {
                             coroutineScope.launch {
-                                pagerState.animateScrollToPage(tabs.indexOf(screen))
+                                pagerState.animateScrollToPage(index)
                             }
                         }
                     )
@@ -81,20 +80,15 @@ fun WhatsAppWithSwipe() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) { page ->
-            when (page) {
-                0 -> ChatsScreen()
-                1 -> StatusScreen()
-                2 -> OtherScreen()
+            when (tabs[page]) {
+                is WhatsAppTab.Chats -> ChatsScreen()
+                is WhatsAppTab.Status -> StatusScreen()
+                is WhatsAppTab.Calls -> CallsScreen()
             }
         }
-
     }
 }
 
-@Composable
-fun ChatsScreen() {
-    Text("Lista de conversas")
-}
 
 @Composable
 fun StatusScreen() {
@@ -102,6 +96,6 @@ fun StatusScreen() {
 }
 
 @Composable
-fun OtherScreen() {
+fun CallsScreen() {
     Text("Histórico de chamadas")
 }

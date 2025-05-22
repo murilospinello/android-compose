@@ -12,6 +12,8 @@ koin = "3.5.6"
 mockk = "1.13.12"
 room = "2.7.1"
 composePager = "1.8.2"
+coil = "2.6.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +39,8 @@ koin-androidx-workmanager = { group = "io.insert-koin", name = "koin-androidx-wo
 koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
 
 # MockK
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }

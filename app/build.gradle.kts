@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.ui)
+    implementation(libs.coil.compose)
     implementation(libs.compose.pager)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.material3)
@@ -52,7 +53,6 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Testes Unitários (test)
     testImplementation(libs.junit)
     testImplementation(libs.junit)
     testImplementation(libs.koin.test)
