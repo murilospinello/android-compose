@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class CallsDataSourceMock {
-    fun fetchCalls(): Flow<List<CallItem>> = flowOf(sampleCalls)
+    fun getCalls(): Flow<List<CallItem>> = flowOf(sampleCalls)
 }
 
 val sampleCalls = listOf(
