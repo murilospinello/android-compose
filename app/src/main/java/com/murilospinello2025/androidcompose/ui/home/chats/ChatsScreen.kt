@@ -28,10 +28,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.murilospinello2025.androidcompose.domain.model.ChatItem
 import com.murilospinello2025.androidcompose.domain.model.sampleChats
 import com.murilospinello2025.androidcompose.ui.theme.Dimens
+import org.koin.androidx.compose.koinViewModel
 
 @Preview
 @Composable
 fun ChatsScreen() {
+    val viewModel: ChatsViewModel = koinViewModel()
     val horizontalColorDivider = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
 
     LazyColumn(
