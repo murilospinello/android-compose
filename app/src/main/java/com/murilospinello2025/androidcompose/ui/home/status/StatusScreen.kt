@@ -1,4 +1,4 @@
-package com.murilospinello2025.androidcompose.ui.home
+package com.murilospinello2025.androidcompose.ui.home.status
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -26,10 +26,13 @@ import coil.compose.rememberAsyncImagePainter
 import com.murilospinello2025.androidcompose.domain.model.StatusItem
 import com.murilospinello2025.androidcompose.domain.model.sampleStatuses
 import com.murilospinello2025.androidcompose.ui.theme.Dimens
+import org.koin.androidx.compose.koinViewModel
 
 @Preview
 @Composable
 fun StatusScreen() {
+    val viewModel: StatusViewModel = koinViewModel()
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = Dimens.spacingS)

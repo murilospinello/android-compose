@@ -1,4 +1,4 @@
-package com.murilospinello2025.androidcompose.ui.home
+package com.murilospinello2025.androidcompose.ui.home.calls
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -10,13 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
@@ -29,47 +28,83 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.murilospinello2025.androidcompose.domain.model.CallDirection
 import com.murilospinello2025.androidcompose.domain.model.CallItem
-import com.murilospinello2025.androidcompose.domain.model.sampleCalls
 import com.murilospinello2025.androidcompose.ui.theme.Dimens
+import org.koin.androidx.compose.koinViewModel
+import androidx.compose.runtime.getValue
+
+
+@Composable
+fun CallsScreen() {
+    val viewModel: CallsViewModel = koinViewModel()
+    val calls by viewModel.calls.collectAsStateWithLifecycle()
+
+    val favorites = calls.filterIsInstance<CallItem.Favorite>()
+    val recents = calls.filterIsInstance<CallItem.Recent>()
+
+
+    CallsColumn {
+        favoriteSection(favorites)
+        recentSection(recents)
+    }
+}
 
 @Preview
 @Composable
-fun CallsScreen() {
+fun CallsScreenPreview() {
+    val favorites = sampleCallsPreview.filterIsInstance<CallItem.Favorite>()
+    val recents = sampleCallsPreview.filterIsInstance<CallItem.Recent>()
+
+    CallsColumn {
+        favoriteSection(favorites)
+        recentSection(recents)
+    }
+}
+
+@Composable
+fun CallsColumn(content: LazyListScope.() -> Unit) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
             Text(
                 text = "Ligações",
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(horizontal = Dimens.spacingL, vertical = Dimens.spacingS)
+                modifier = Modifier.padding(
+                    horizontal = Dimens.spacingL,
+                    vertical = Dimens.spacingS
+                )
             )
         }
 
+        content()
+    }
+}
+
+fun LazyListScope.favoriteSection(favorites: List<CallItem.Favorite>) {
+    if (favorites.isNotEmpty()) {
         item {
             Text(
                 text = "Favoritos",
                 style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.padding(horizontal = Dimens.spacingL, vertical = Dimens.spacingS)
+                modifier = Modifier.padding(horizontal = Dimens.spacingL)
             )
         }
+        items(favorites) { FavoriteCallItem(it) }
+    }
+}
 
-        items(sampleCalls.filterIsInstance<CallItem.Favorite>()) { call ->
-            FavoriteCallItem(call)
-        }
-
+fun LazyListScope.recentSection(recents: List<CallItem.Recent>) {
+    if (recents.isNotEmpty()) {
         item {
             Text(
                 text = "Recentes",
                 style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.padding(horizontal = Dimens.spacingL, vertical = Dimens.spacingS)
+                modifier = Modifier.padding(horizontal = Dimens.spacingL)
             )
         }
-
-        items(sampleCalls.filterIsInstance<CallItem.Recent>()) { call ->
-            RecentCallItem(call)
-        }
+        items(recents) { RecentCallItem(it) }
     }
 }
 
@@ -146,5 +181,30 @@ fun RecentCallItem(call: CallItem.Recent) {
         )
     }
 }
+
+private val sampleCallsPreview = listOf(
+    CallItem.Favorite(
+        name = "Herick",
+        profileImageUrl = "https://i.pinimg.com/736x/fd/fc/ef/fdfcefc24e58a4e3ed4dd6099d530353.jpg"
+    ),
+    CallItem.Favorite(
+        name = "Estenio",
+        profileImageUrl = "https://www.psitto.com.br/wp-content/uploads/2021/01/como-conviver-pessoas-dificeis.jpg"
+    ),
+    CallItem.Recent(
+        name = "Nayara",
+        profileImageUrl = "https://www.pensarcontemporaneo.com/content/uploads/2023/01/image-1.jpg",
+        direction = CallDirection.INCOMING,
+        dateTime = "Hoje 12:45",
+        isVideoCall = false
+    ),
+    CallItem.Recent(
+        name = "Herick",
+        profileImageUrl = "https://i.pinimg.com/736x/fd/fc/ef/fdfcefc24e58a4e3ed4dd6099d530353.jpg",
+        direction = CallDirection.OUTGOING,
+        dateTime = "Ontem 11:30",
+        isVideoCall = true
+    )
+)
 
 

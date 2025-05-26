@@ -1,6 +1,5 @@
 package com.murilospinello2025.androidcompose.ui.home
 
-import com.murilospinello2025.androidcompose.ui.home.chats.ChatsScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,36 +16,50 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.murilospinello2025.androidcompose.ui.home.chats.WhatsAppTab
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.murilospinello2025.androidcompose.ui.home.calls.CallsScreen
+import com.murilospinello2025.androidcompose.ui.home.chats.ChatsScreen
+import com.murilospinello2025.androidcompose.ui.home.status.StatusScreen
 import com.murilospinello2025.androidcompose.ui.theme.AndroidComposeMuriloSpinello2025Theme
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+    private val mainViewModel: MainViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AndroidComposeMuriloSpinello2025Theme {
-                WhatsAppWithSwipe()
+                WhatsAppWithSwipe(mainViewModel)
             }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun WhatsAppWithSwipe() {
+fun WhatsAppWithSwipe(mainViewModel: MainViewModel) {
     val tabs = WhatsAppTab.items
-    val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val title by mainViewModel.titlePage.collectAsStateWithLifecycle()
+
+    LaunchedEffect(pagerState.currentPage) {
+        mainViewModel.setTitlePage(tabs[pagerState.currentPage].title)
+    }
+
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("WhatsApp Murilo") })
+            TopAppBar(title = { Text(title) })
         },
         bottomBar = {
             NavigationBar {
@@ -80,3 +93,9 @@ fun WhatsAppWithSwipe() {
     }
 }
 
+@Preview
+@Composable
+fun WhatsAppWithSwipePreview() {
+    val previewViewModel = remember { MainViewModel() }
+    WhatsAppWithSwipe(mainViewModel = previewViewModel)
+}
