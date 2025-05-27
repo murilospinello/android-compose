@@ -11,11 +11,13 @@ composeBom = "2025.05.01"
 koin = "3.5.6"
 mockk = "1.13.12"
 room = "2.7.1"
+coroutinesTest = "1.7.3"
 composePager = "1.8.2"
 coil = "2.6.0"
 
 
 [libraries]
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

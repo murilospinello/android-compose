@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,13 +35,13 @@ import com.murilospinello2025.androidcompose.domain.model.CallDirection
 import com.murilospinello2025.androidcompose.domain.model.CallItem
 import com.murilospinello2025.androidcompose.ui.theme.Dimens
 import org.koin.androidx.compose.koinViewModel
-import androidx.compose.runtime.getValue
 
 
 @Composable
 fun CallsScreen() {
     val viewModel: CallsViewModel = koinViewModel()
     val calls by viewModel.calls.collectAsStateWithLifecycle()
+    viewModel.getCalls()
 
     val favorites = calls.filterIsInstance<CallItem.Favorite>()
     val recents = calls.filterIsInstance<CallItem.Recent>()
