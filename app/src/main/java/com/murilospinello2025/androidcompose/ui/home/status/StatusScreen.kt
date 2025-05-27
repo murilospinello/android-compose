@@ -33,6 +33,7 @@ fun StatusScreen() {
     val viewModel: StatusViewModel = koinViewModel()
     val status by viewModel.status.collectAsStateWithLifecycle()
     StatusScreenColumn(status)
+    viewModel.getStatus()
 }
 
 @Preview(showBackground = true)

@@ -36,6 +36,7 @@ fun ChatsScreen() {
     val viewModel: ChatsViewModel = koinViewModel()
     val chats by viewModel.chats.collectAsStateWithLifecycle()
     ChatsScreenColumn(chats)
+    viewModel.getChats()
 }
 
 @Preview
