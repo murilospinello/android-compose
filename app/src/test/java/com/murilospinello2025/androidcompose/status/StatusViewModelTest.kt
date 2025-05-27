@@ -1,4 +1,4 @@
-package com.murilospinello2025.androidcompose
+package com.murilospinello2025.androidcompose.status
 
 import com.murilospinello2025.androidcompose.domain.model.StatusItem
 import com.murilospinello2025.androidcompose.domain.usecase.GetStatusUseCase
@@ -41,7 +41,7 @@ class StatusViewModelTest {
     @Test
     fun `getStatus updates status state`() = runTest {
         val fakeStatus = listOf(
-            StatusItem.ContactStatus("Murilo", "Hoje", "10:10","https://url.com")
+            StatusItem.ContactStatus("Murilo", "Hoje", "10:10", "https://url.com")
         )
 
         coEvery { useCase.invoke() } returns flowOf(fakeStatus)
@@ -51,6 +51,21 @@ class StatusViewModelTest {
 
         assertEquals(fakeStatus, viewModel.status.value)
         assertEquals(null, viewModel.error.value)
+    }
+
+
+    @Test
+    fun `getStatus updates status state MyStatus`() = runTest {
+        val fakeStatus = listOf(
+            StatusItem.MyStatus
+        )
+
+        coEvery { useCase.invoke() } returns flowOf(fakeStatus)
+
+        viewModel.getStatus()
+        advanceUntilIdle()
+
+        assertEquals(fakeStatus, viewModel.status.value)
     }
 
     @Test
@@ -79,5 +94,5 @@ class StatusViewModelTest {
         assertEquals(emptyList<StatusItem>(), viewModel.status.value)
         assertEquals(errorMessage, viewModel.error.value)
     }
-    
+
 }

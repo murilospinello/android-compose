@@ -1,4 +1,4 @@
-package com.murilospinello2025.androidcompose
+package com.murilospinello2025.androidcompose.chats
 
 import com.murilospinello2025.androidcompose.domain.model.ChatItem
 import com.murilospinello2025.androidcompose.domain.usecase.GetChatsUseCase

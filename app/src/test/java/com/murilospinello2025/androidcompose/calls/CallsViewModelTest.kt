@@ -1,4 +1,4 @@
-package com.murilospinello2025.androidcompose
+package com.murilospinello2025.androidcompose.calls
 
 import com.murilospinello2025.androidcompose.domain.model.CallDirection
 import com.murilospinello2025.androidcompose.domain.model.CallItem
@@ -37,10 +37,26 @@ class CallsViewModelTest {
     fun tearDown() {
         Dispatchers.resetMain()
     }
+
     @Test
     fun `getCalls updates calls state`() = runTest {
         val fakeCalls = listOf(
             CallItem.Recent("Murilo", "https://url.com", CallDirection.INCOMING, "Hoje 13:00", false)
+        )
+
+        coEvery { useCase.invoke() } returns flowOf(fakeCalls)
+
+        viewModel.getCalls()
+        advanceUntilIdle()
+
+        assertEquals(fakeCalls, viewModel.calls.value)
+        assertEquals(null, viewModel.error.value)
+    }
+
+    @Test
+    fun `getCalls updates calls state favorite`() = runTest {
+        val fakeCalls = listOf(
+            CallItem.Favorite("Murilo", "https://url.com")
         )
 
         coEvery { useCase.invoke() } returns flowOf(fakeCalls)
