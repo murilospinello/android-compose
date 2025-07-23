@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.murilospinello2025.androidcompose.domain.usecase.GetChatsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 class ChatsUiStateViewModel(val getChatsUseCase: GetChatsUseCase) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ChatsUiState>(ChatsUiState.Loading)
-    val uiState: StateFlow<ChatsUiState> = _uiState
+    val uiState: StateFlow<ChatsUiState> = _uiState.asStateFlow()
 
     fun getChats() {
         viewModelScope.launch {
