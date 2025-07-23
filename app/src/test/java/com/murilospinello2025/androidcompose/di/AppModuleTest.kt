@@ -2,7 +2,7 @@ package com.murilospinello2025.androidcompose.di
 
 import com.murilospinello2025.androidcompose.ui.home.MainViewModel
 import com.murilospinello2025.androidcompose.ui.home.calls.CallsViewModel
-import com.murilospinello2025.androidcompose.ui.home.chats.ChatsViewModel
+import com.murilospinello2025.androidcompose.ui.home.chats.ChatsUiStateViewModel
 import com.murilospinello2025.androidcompose.ui.home.status.StatusViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -38,7 +38,7 @@ class AppModuleTest : KoinTest {
 
     @Test
     fun `should resolve ChatsViewModel`() = runTest {
-        val viewModel = get<ChatsViewModel>()
+        val viewModel = get<ChatsUiStateViewModel>()
         assertNotNull(viewModel)
     }
 

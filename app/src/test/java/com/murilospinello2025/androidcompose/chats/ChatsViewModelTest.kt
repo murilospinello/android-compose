@@ -2,7 +2,8 @@ package com.murilospinello2025.androidcompose.chats
 
 import com.murilospinello2025.androidcompose.domain.model.ChatItem
 import com.murilospinello2025.androidcompose.domain.usecase.GetChatsUseCase
-import com.murilospinello2025.androidcompose.ui.home.chats.ChatsViewModel
+import com.murilospinello2025.androidcompose.ui.home.chats.ChatsUiState
+import com.murilospinello2025.androidcompose.ui.home.chats.ChatsUiStateViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +25,7 @@ class ChatsViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
     private val useCase: GetChatsUseCase = mockk()
-    private val viewModel = ChatsViewModel(useCase)
+    private val viewModel = ChatsUiStateViewModel(useCase)
 
     @Before
     fun setup() {
@@ -47,23 +48,13 @@ class ChatsViewModelTest {
         viewModel.getChats()
         advanceUntilIdle()
 
-        assertEquals(fakeChats, viewModel.chats.value)
-        assertEquals(null, viewModel.error.value)
+        val state = viewModel.chats.value
+        assert(state is ChatsUiState.Success)
+        assertEquals(fakeChats, (state as ChatsUiState.Success).chats)
     }
 
     @Test
     fun `getChats emits empty list when flow is empty`() = runTest {
-        coEvery { useCase.invoke() } returns flowOf(emptyList())
-
-        viewModel.getChats()
-        advanceUntilIdle()
-
-        assertEquals(emptyList<ChatItem>(), viewModel.chats.value)
-        assertEquals(null, viewModel.error.value)
-    }
-
-    @Test
-    fun `getChats sets error message on exception`() = runTest {
         val errorMessage = "Erro de teste"
         coEvery { useCase.invoke() } returns flow {
             throw RuntimeException(errorMessage)
@@ -72,7 +63,21 @@ class ChatsViewModelTest {
         viewModel.getChats()
         advanceUntilIdle()
 
-        assertEquals(emptyList<ChatItem>(), viewModel.chats.value)
-        assertEquals(errorMessage, viewModel.error.value)
+        val state = viewModel.chats.value
+        assert(state is ChatsUiState.Error)
+        assertEquals(errorMessage, (state as ChatsUiState.Error).msg)
+    }
+
+    @Test
+    fun `getChats emits Loading state before collecting`() = runTest {
+        coEvery { useCase.invoke() } returns flowOf(emptyList())
+
+        viewModel.getChats()
+
+        assert(viewModel.chats.value is ChatsUiState.Loading)
+
+        advanceUntilIdle()
+
+        assert(viewModel.chats.value is ChatsUiState.Success)
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,14 +30,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.murilospinello2025.androidcompose.domain.model.ChatItem
 import com.murilospinello2025.androidcompose.ui.theme.Dimens
+import com.murilospinello2025.doNothing
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ChatsScreen() {
-    val viewModel: ChatsViewModel = koinViewModel()
+    val viewModel: ChatsUiStateViewModel = koinViewModel()
     val chats by viewModel.chats.collectAsStateWithLifecycle()
-    ChatsScreenColumn(chats)
-    viewModel.getChats()
+
+    LaunchedEffect(Unit) {
+        viewModel.getChats()
+    }
+
+    when(val letChats = chats) {
+        is ChatsUiState.Error -> doNothing()
+        ChatsUiState.Loading -> doNothing()
+        is ChatsUiState.Success -> ChatsScreenColumn(letChats.chats)
+    }
 }
 
 @Preview

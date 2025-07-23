@@ -14,7 +14,7 @@ import com.murilospinello2025.androidcompose.domain.usecase.GetChatsUseCase
 import com.murilospinello2025.androidcompose.domain.usecase.GetStatusUseCase
 import com.murilospinello2025.androidcompose.ui.home.MainViewModel
 import com.murilospinello2025.androidcompose.ui.home.calls.CallsViewModel
-import com.murilospinello2025.androidcompose.ui.home.chats.ChatsViewModel
+import com.murilospinello2025.androidcompose.ui.home.chats.ChatsUiStateViewModel
 import com.murilospinello2025.androidcompose.ui.home.status.StatusViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -25,7 +25,7 @@ val appModule = module {
 
     viewModelOf(::MainViewModel)
     viewModelOf(::CallsViewModel)
-    viewModelOf(::ChatsViewModel)
+    viewModelOf(::ChatsUiStateViewModel)
     viewModelOf(::StatusViewModel)
 
     singleOf(::GetCallsUseCase)
