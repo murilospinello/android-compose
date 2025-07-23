@@ -11,15 +11,15 @@ import kotlinx.coroutines.launch
 
 class ChatsUiStateViewModel(val getChatsUseCase: GetChatsUseCase) : ViewModel() {
 
-    private val _chats = MutableStateFlow<ChatsUiState>(ChatsUiState.Loading)
-    val chats: StateFlow<ChatsUiState> = _chats
+    private val _uiState = MutableStateFlow<ChatsUiState>(ChatsUiState.Loading)
+    val uiState: StateFlow<ChatsUiState> = _uiState
 
     fun getChats() {
         viewModelScope.launch {
             getChatsUseCase()
-                .onStart { _chats.value = ChatsUiState.Loading }
-                .catch { _chats.value = ChatsUiState.Error(it.message ?: "Unknown error") }
-                .collect { _chats.value = ChatsUiState.Success(it) }
+                .onStart { _uiState.value = ChatsUiState.Loading }
+                .catch { _uiState.value = ChatsUiState.Error(it.message ?: "Unknown error") }
+                .collect { _uiState.value = ChatsUiState.Success(it) }
         }
     }
 }

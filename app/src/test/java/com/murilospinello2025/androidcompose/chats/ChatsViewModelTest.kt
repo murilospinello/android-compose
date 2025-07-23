@@ -48,7 +48,7 @@ class ChatsViewModelTest {
         viewModel.getChats()
         advanceUntilIdle()
 
-        val state = viewModel.chats.value
+        val state = viewModel.uiState.value
         assert(state is ChatsUiState.Success)
         assertEquals(fakeChats, (state as ChatsUiState.Success).chats)
     }
@@ -63,7 +63,7 @@ class ChatsViewModelTest {
         viewModel.getChats()
         advanceUntilIdle()
 
-        val state = viewModel.chats.value
+        val state = viewModel.uiState.value
         assert(state is ChatsUiState.Error)
         assertEquals(errorMessage, (state as ChatsUiState.Error).msg)
     }
@@ -74,10 +74,10 @@ class ChatsViewModelTest {
 
         viewModel.getChats()
 
-        assert(viewModel.chats.value is ChatsUiState.Loading)
+        assert(viewModel.uiState.value is ChatsUiState.Loading)
 
         advanceUntilIdle()
 
-        assert(viewModel.chats.value is ChatsUiState.Success)
+        assert(viewModel.uiState.value is ChatsUiState.Success)
     }
 }

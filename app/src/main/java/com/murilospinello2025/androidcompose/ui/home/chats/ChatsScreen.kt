@@ -36,7 +36,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ChatsScreen() {
     val viewModel: ChatsUiStateViewModel = koinViewModel()
-    val chats by viewModel.chats.collectAsStateWithLifecycle()
+    val chats by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.getChats()
